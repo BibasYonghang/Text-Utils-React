@@ -1,43 +1,60 @@
-import React, { useState } from 'react'
-
+import React, { useState } from 'react';
 
 export default function TextForm(props) {
+    const [text, setText] = useState('');
+
     const handleUpClick = () => {
-        // console.log("Uppercase was Clicked" + text)
         let newText = text.toUpperCase();
-        setText(newText)
-    }
+        setText(newText);
+    };
 
     const handleLoClick = () => {
         let newText = text.toLowerCase();
         setText(newText);
-    }
+    };
+
+
 
     const handleOnChange = (event) => {
-        // console.log("handle on Chnage")
-        setText(event.target.value)
+        setText(event.target.value);
+    };
 
-
+    const clearButton = () => {
+        setText('');
     }
-    const [text, setText] = useState('');
+
+    // Count words properly
+    const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
     return (
         <>
             <div className="container">
                 <h1>{props.heading}</h1>
                 <div className="mb-3">
-                    <textarea className="form-control" value="{text}" onChange={handleOnChange} id="mybox" rows="8"></textarea>
+                    <textarea
+                        className="form-control"
+                        value={text}
+                        onChange={handleOnChange}
+                        id="mybox"
+                        rows="8"
+                    ></textarea>
                 </div>
-                <button className="btn btn-primary" onClick={handleUpClick}>Convert To Uppercase</button>
-                <button className="btn btn-primary" onClick={handleLoClick}>Convert To Lowercase</button>
+                <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+                    Convert To Uppercase
+                </button>
+                <button className="btn btn-primary mx-1" onClick={handleLoClick}>
+                    Convert To Lowercase
+                </button>
+                <button className="btn btn-primary mx-1" onClick={clearButton}>Clear Text</button>
             </div>
             <div className="container my-2">
-                <h1>Your text summery</h1>
-                <p>{text.split("").length} words and {text.length} characters</p>
-                <p>{0.0008*text.split("").length} Minutes Read</p>
+                <h1>Your text summary</h1>
+                <p>{wordCount} words and {text.length} characters</p>
+                <p>{0.0008 * wordCount} Minutes Read</p>
                 <h2>Preview</h2>
-                <p>{text}</p>
+                <p>{text.length > 0 ? text : 'Nothing to preview!'}</p>
 
             </div>
-            </>
-    )
+        </>
+    );
 }
