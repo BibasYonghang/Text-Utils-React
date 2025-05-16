@@ -154,14 +154,14 @@
 // Find the First Non-Repeating Character
 // Write a function that finds the first non-repeating character in a string.
 
-function nonRepeatedChar(str){
-    let result = []
-    for (let i of str){
-        result = result.append(i);
-        if (!result.includes(i)){
-            console.log(i);
-        }
-    }
-}
+// function nonRepeatedChar(str){
+//     let result = []
+//     for (let i of str){
+//         result = result.append(i);
+//         if (!result.includes(i)){
+//             console.log(i);
+//         }
+//     }
+// }
 
-console.log(nonRepeatedChar("bibas"));
+// console.log(nonRepeatedChar("bibas"));
