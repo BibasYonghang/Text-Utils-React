@@ -6,21 +6,39 @@ export default function TextForm(props) {
     const handleUpClick = () => {
         let newText = text.toUpperCase();
         setText(newText);
+        props.showAlert("Converted To Uppercase", "success")
     };
 
     const handleLoClick = () => {
         let newText = text.toLowerCase();
         setText(newText);
+        props.showAlert("Converted To Lowercase", "success")
     };
+
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(text);
+        props.showAlert("Copied to Clipboard!", "success");
+    };
+
+
+    const removeExtraSpaces = () => {
+        let newText = text.trim().replace(/\s+/g, ' ');
+        setText(newText);
+        props.showAlert("Extra spaces removed!", "success");
+    }
+
 
 
 
     const handleOnChange = (event) => {
         setText(event.target.value);
+
     };
 
     const clearButton = () => {
         setText('');
+        props.showAlert("Text Cleared", "success")
     }
 
     // Count words properly
@@ -46,7 +64,16 @@ export default function TextForm(props) {
                 <button className="btn btn-primary mx-1" onClick={handleLoClick}>
                     Convert To Lowercase
                 </button>
-                <button className="btn btn-primary mx-1" onClick={clearButton}>Clear Text</button>
+                <button className="btn btn-primary mx-1" onClick={clearButton}>
+                    Clear Text</button>
+                <button className="btn btn-primary mx-1" onClick={handleCopy}>
+                    Copy Text
+                </button>
+
+                <button className="btn btn-primary mx-1" onClick={removeExtraSpaces}>
+                    Remove Extra Spaces
+                </button>
+
             </div>
             <div className="container my-2" style={{ color: props.mode === 'light' ? '#031535' : 'white' }}>
                 <h1>Your text summary</h1>
