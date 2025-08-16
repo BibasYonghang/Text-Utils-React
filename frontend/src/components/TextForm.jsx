@@ -1,89 +1,34 @@
 import React, { useState } from 'react';
 
-export default function TextForm(props) {
-    const [text, setText] = useState('');
+export default function TextForm() {
+    const [text, setText] = useState(""); // state to store textarea value
+    const [capitalizedText, setCapitalizedText] = useState("");
 
-    const handleUpClick = () => {
-        let newText = text.toUpperCase();
-        setText(newText);
-        props.showAlert("Converted To Uppercase", "success")
-    };
-
-    const handleLoClick = () => {
-        let newText = text.toLowerCase();
-        setText(newText);
-        props.showAlert("Converted To Lowercase", "success")
-    };
-
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(text);
-        document.getSelection().removeAllRanges();
-        props.showAlert("Copied to Clipboard!", "success");
-    };
-
-
-    const removeExtraSpaces = () => {
-        let newText = text.trim().replace(/\s+/g, ' ');
-        setText(newText);
-        props.showAlert("Extra spaces removed!", "success");
+    const capitalize = () => {
+        const lower = text.toLowerCase();
+        const capitalized = lower.charAt(0).toUpperCase() + lower.slice(1);
+        setCapitalizedText(capitalized); // store result
     }
-
-
-
-
-    const handleOnChange = (event) => {
-        setText(event.target.value);
-
-    };
-
-    const clearButton = () => {
-        setText('');
-        props.showAlert("Text Cleared", "success")
-    }
-
-    // Count words properly
-    const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
 
     return (
         <>
-            <div className="container" style={{ color: props.mode === 'light' ? '#031535' : 'white' }}>
-                <h1 >{props.heading}</h1>
-                <div className="mb-3 my-5">
-                    <textarea
-                        className="form-control"
-                        value={text} style={{ backgroundColor: props.mode === 'dark' ? 'rgb(30 73 125)' : 'white', color: props.mode === 'dark' ? 'white' : 'rgb(30 73 125)' }}
+            <section className='flex flex-col justify-center items-center gap-4 mt-[5vh]'>
+                <h1 className='font-bold text-3xl text-blue-500'>Text Utills</h1>
+                <textarea
+                    value={text}                  // controlled textarea
+                    onChange={(e) => setText(e.target.value)} // update state
+                    className='min-h-[30vh] w-[90vw] border rounded-lg outline-none focus:ring-1 p-2 text-blue-500'
+                />
+            </section>
 
-                        onChange={handleOnChange}
-                        id="mybox"
-                        rows="8"
-                    ></textarea>
-                </div> 
-                <button disabled={text.length ===0} className="btn btn-primary mx-1 my-1 " onClick={handleUpClick}>
-                    Convert To Uppercase
-                </button>
-                <button  disabled={text.length ===0} className="btn btn-primary mx-1 my-1" onClick={handleLoClick}>
-                    Convert To Lowercase
-                </button>
-                <button  disabled={text.length ===0} className="btn btn-primary mx-1 my-1" onClick={clearButton}>
-                    Clear Text</button>
-                <button  disabled={text.length ===0} className="btn btn-primary mx-1 my-1" onClick={handleCopy}>
-                    Copy Text
-                </button>
-
-                <button  disabled={text.length ===0} className="btn btn-primary mx-1" onClick={removeExtraSpaces}>
-                    Remove Extra Spaces
-                </button>
-
+            <div className='flex flex-col justify-center items-center gap-4 mt-[5vh]'>
+                <h1>Number of Words: {text.split(" ").filter(word => word !== "").length}</h1>
+                <h1>Capitalized Text: {capitalizedText}</h1>
             </div>
-            <div className="container my-2" style={{ color: props.mode === 'light' ? '#031535' : 'white' }}>
-                <h1>Your text summary</h1>
-                <p>{wordCount} words and {text.length} characters</p>
-                <p>{0.0008 * wordCount} Minutes Read</p>
-                <h2>Preview</h2>
-                <p>{text.length > 0 ? text : 'Nothing to preview!'}</p>
 
-            </div>
+            <button onClick={capitalize} className='border hover:cursor-pointer px-4 py-2 mt-4'>
+                Capitalize Text
+            </button>
         </>
     );
 }
